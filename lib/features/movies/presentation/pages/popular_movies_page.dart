@@ -1,0 +1,94 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:number_paginator/number_paginator.dart';
+
+import 'package:flutter_movie_app/core/components/presentation/widgets/status_failed_widget.dart';
+import 'package:flutter_movie_app/core/components/presentation/widgets/status_loading_widget.dart';
+import 'package:flutter_movie_app/core/components/presentation/widgets/status_nothing_widget.dart';
+import 'package:flutter_movie_app/features/movies/presentation/movies_bloc/get_all_movies_bloc.dart';
+import 'package:flutter_movie_app/features/movies/presentation/movies_bloc/get_all_movies_state.dart';
+import 'package:flutter_movie_app/features/movies/presentation/widgets/more_movies_card_widget.dart';
+
+import '../../../../core/service_locators.dart/injection_container.dart';
+import '../movies_bloc/get_all_movies_event.dart';
+
+class PopularMoviesPage extends StatelessWidget {
+  final String pageName;
+  final int page;
+  const PopularMoviesPage({
+    Key? key,
+    required this.pageName,
+    required this.page,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<MoviesBloc>(
+      create: (context) => sl()..add(GetPopularMoviesEvent(page: page)),
+      child: Scaffold(
+        appBar: _customAppBar(context),
+        body: BlocBuilder<MoviesBloc, MoviesState>(
+          builder: (_, state) {
+            if (state is MoviesLoading) {
+              return const StatusLoadingWidget();
+            } else if (state is PopularMoviesLoaded) {
+              return _popularMoviesList(state);
+            } else if (state is MoviesFailed) {
+              return StatusFailedWidget(message: state.failure.toString());
+            } else {
+              return const StatusNothingWidget();
+            }
+          },
+        ),
+        bottomNavigationBar: BlocBuilder<MoviesBloc, MoviesState>(
+          builder: (context, state) {
+            return NumberPaginator(
+              config: NumberPaginatorUIConfig(
+                  contentPadding: EdgeInsets.symmetric(vertical: 2.h)),
+              numberPages: 99,
+              showNextButton: true,
+              showPrevButton: true,
+              onPageChange: (int index) {
+                BlocProvider.of<MoviesBloc>(context)
+                    .add(GetPopularMoviesEvent(page: index + 1));
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  ListView _popularMoviesList(PopularMoviesLoaded state) {
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      itemCount: state.popularMovies!.length,
+      itemBuilder: (BuildContext context, int index) {
+        return MoviesCardWidget(
+          movieEntity: state.popularMovies![index],
+        );
+      },
+    );
+  }
+
+  AppBar _customAppBar(BuildContext context) {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      leading: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: const Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
+        ),
+      ),
+      title: Text(
+        pageName,
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
+    );
+  }
+}
