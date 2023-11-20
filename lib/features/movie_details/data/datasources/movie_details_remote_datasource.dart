@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_movie_app/core/constants/api_constants.dart';
+import 'package:flutter_movie_app/core/constant/api_constants.dart';
 import 'package:flutter_movie_app/core/failure/failure.dart';
 import 'package:flutter_movie_app/core/utils/functions.dart';
 import 'package:flutter_movie_app/features/movie_details/data/models/movie_details_model.dart';
