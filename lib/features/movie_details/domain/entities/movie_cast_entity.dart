@@ -9,5 +9,6 @@ class MovieCastEntity extends Equatable {
     required this.profilePath,
   });
 
+  @override
   List<Object?> get props => [name, profilePath];
 }

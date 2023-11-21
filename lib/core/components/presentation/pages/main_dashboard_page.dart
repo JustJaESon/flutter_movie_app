@@ -23,12 +23,6 @@ class MainDashboardPage extends StatelessWidget {
                   "series",
                   style: TextStyle(color: Colors.white),
                 ));
-              case 2:
-                return const Center(
-                    child: Text(
-                  "search",
-                  style: TextStyle(color: Colors.white),
-                ));
               default:
                 return const Center(
                     child: Text(

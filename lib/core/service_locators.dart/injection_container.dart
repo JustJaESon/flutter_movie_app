@@ -10,6 +10,7 @@ import "package:flutter_movie_app/features/movies/domain/usecases/get_all_popula
 import "package:flutter_movie_app/features/movies/domain/usecases/get_all_top_rated_movies.dart";
 import "package:flutter_movie_app/features/movies/domain/usecases/get_all_upcoming_movies.dart";
 import 'package:flutter_movie_app/features/movie_details/domain/usecases/get_movie_details_usecase.dart';
+import "package:flutter_movie_app/features/movies/domain/usecases/get_search_movies_usecase.dart";
 
 import 'package:flutter_movie_app/features/movies/presentation/movies_bloc/get_all_movies_bloc.dart';
 
@@ -37,8 +38,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetAllTopRatedMoviesUseCase(sl()));
   sl.registerLazySingleton(() => GetAllUpcomingMoviesUseCase(sl()));
   sl.registerLazySingleton(() => GetMovieDetailsUseCase(sl()));
+  sl.registerLazySingleton(() => GetSearchMoviesUseCase(sl()));
 
   //BLOC
-  sl.registerFactory<MoviesBloc>(() => MoviesBloc(sl(), sl(), sl()));
+  sl.registerFactory<MoviesBloc>(() => MoviesBloc(sl(), sl(), sl(), sl()));
   sl.registerFactory<MovieDetailsBloc>(() => MovieDetailsBloc(sl()));
 }

@@ -9,6 +9,7 @@ class MovieSimilarEntity extends Equatable {
     required this.posterPath,
   });
 
+  @override
   List<Object?> get props => [
         id,
         posterPath,

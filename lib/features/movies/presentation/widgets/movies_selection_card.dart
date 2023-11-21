@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie_app/core/components/presentation/widgets/cached_network_image_widget.dart';
 import 'package:flutter_movie_app/core/utils/functions.dart';
-import 'package:flutter_movie_app/features/movies/domain/entities/movie_entity.dart';
 import 'package:flutter_movie_app/features/movie_details/presentation/pages/movie_details_page.dart';
+import 'package:flutter_movie_app/features/movies/domain/entities/movie_entity.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MoviesSelectionCard extends StatelessWidget {
@@ -76,17 +76,6 @@ class MoviesSelectionCard extends StatelessWidget {
                       SizedBox(
                         height: 4.h,
                       ),
-                      // Container(
-                      //   padding: EdgeInsets.symmetric(horizontal: 6.w),
-                      //   width: 110.w,
-                      //   child: Text(
-                      //     movie[index].title,
-                      //     maxLines: 2,
-                      //     overflow: TextOverflow.ellipsis,
-                      //     textAlign: TextAlign.start,
-                      //     style: Theme.of(context).textTheme.titleMedium,
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),

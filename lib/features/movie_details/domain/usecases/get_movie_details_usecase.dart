@@ -9,7 +9,7 @@ class GetMovieDetailsUseCase extends BaseUseCase<MovieDetailsEntity, String> {
   GetMovieDetailsUseCase(this._movieRepository);
 
   @override
-  Future<Either<Failure, MovieDetailsEntity>> call(String p) async {
-    return await _movieRepository.getMovieDetails(p);
+  Future<Either<Failure, MovieDetailsEntity>> call(String params) async {
+    return await _movieRepository.getMovieDetails(params);
   }
 }

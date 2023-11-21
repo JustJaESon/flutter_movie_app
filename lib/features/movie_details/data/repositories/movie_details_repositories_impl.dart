@@ -15,8 +15,8 @@ class MovieDetailsRepositoryImpl implements MovieDetailsRepository {
       final result =
           await _movieDetailsRemoteDataSource.getMovieDetails(movieId);
       return right(result);
-    } on DioException catch (e) {
-      throw e;
+    } on DioException catch (_) {
+      rethrow;
     }
   }
 }

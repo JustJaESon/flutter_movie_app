@@ -15,16 +15,14 @@ class MoviesCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MovieDetailsPage(
-              movieId: movieEntity.id,
-            ),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MovieDetailsPage(
+            movieId: movieEntity.id,
           ),
-        );
-      },
+        ),
+      ),
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.transparent,

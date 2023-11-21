@@ -16,6 +16,10 @@ String getMovieDetailsPath(String movieId, String apiKey) {
   return "https://api.themoviedb.org/3/movie/$movieId?$apiKey&append_to_response=videos,credits,reviews,similar";
 }
 
+String getMoviesSearchPath(String apiKey, String query) {
+  return "https://api.themoviedb.org/3/search/movie?$apiKey&query=$query";
+}
+
 //Top Rated
 
 //Upcoming https://api.themoviedb.org/3/movie/upcoming?apiKey
@@ -46,16 +50,35 @@ String getRuntime(int minutes) {
   String minuteStr =
       remainingMinutes == 1 ? 'min' : 'mins'; // Handle pluralization
 
-  String result = '$hours$hourStr ${remainingMinutes}$minuteStr';
+  String result = '$hours$hourStr $remainingMinutes$minuteStr';
   return result;
 }
 
-String getDate(String releaseDate) {
-  DateTime date = DateTime.parse(releaseDate);
+String getDateYear(String? movieDate) {
+  if (movieDate == null || movieDate.isEmpty) {
+    return "N/A";
+  }
+  try {
+    DateTime date = DateFormat('MMM dd, yyyy').parse(movieDate);
+    String year = DateFormat('yyyy').format(date);
+    return year;
+  } catch (e) {
+    return "Invalid GetDateYear";
+  }
+}
 
-  // Step 2: Format the DateTime object to get only the year
-  String year = DateFormat('MMM dd, yyyy').format(date);
-  return year;
+String getDate(String? releaseDate) {
+  if (releaseDate == null || releaseDate.isEmpty) {
+    return "N/A";
+  }
+  try {
+    DateTime date = DateTime.parse(releaseDate);
+    String formattedDate = DateFormat('MMM dd, yyyy').format(date);
+    return formattedDate;
+  } catch (e) {
+    // Handle the case where the date cannot be parsed
+    return "Invalid GetDate"; // or throw an exception if you prefer
+  }
 }
 
 String getVotesCount(int voteCount) {
@@ -81,10 +104,4 @@ String getAuthorname(String name, String username) {
   } else {
     return username;
   }
-}
-
-String getDateYear(String movieDate) {
-  DateTime date = DateFormat("MMM dd, yyyy").parse(movieDate);
-  String year = DateFormat('yyyy').format(date);
-  return year;
 }

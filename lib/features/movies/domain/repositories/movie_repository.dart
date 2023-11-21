@@ -9,4 +9,7 @@ abstract class MovieRepository {
       int page);
   Future<Either<Failure, List<MovieEntity>>> getMoviesByUpcomingFromDataSource(
       int page);
+
+  Future<Either<Failure, List<MovieEntity>>> getSearchMoviesFromDataSource(
+      String query);
 }

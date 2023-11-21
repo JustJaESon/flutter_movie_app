@@ -49,3 +49,8 @@ class AllMoviesLoadedState extends MoviesState {
       required this.topRatedMovies,
       required this.upcomingMovies});
 }
+
+class SearchedMoviesLoaded extends MoviesState {
+  final List<MovieEntity> searchedMovies;
+  SearchedMoviesLoaded({required this.searchedMovies});
+}

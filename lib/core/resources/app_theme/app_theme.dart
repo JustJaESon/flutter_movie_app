@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ThemeData getApplicationTheme() {
   return ThemeData(
+    brightness: Brightness.dark,
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.transparent, elevation: 0),
     appBarTheme: const AppBarTheme(

@@ -5,6 +5,7 @@ import 'package:flutter_movie_app/features/movies/domain/entities/movie_entity.d
 import 'package:flutter_movie_app/features/movies/domain/usecases/get_all_popular_movies.dart';
 import 'package:flutter_movie_app/features/movies/domain/usecases/get_all_top_rated_movies.dart';
 import 'package:flutter_movie_app/features/movies/domain/usecases/get_all_upcoming_movies.dart';
+import 'package:flutter_movie_app/features/movies/domain/usecases/get_search_movies_usecase.dart';
 import 'package:flutter_movie_app/features/movies/presentation/movies_bloc/get_all_movies_event.dart';
 import 'package:flutter_movie_app/features/movies/presentation/movies_bloc/get_all_movies_state.dart';
 
@@ -12,16 +13,19 @@ class MoviesBloc extends Bloc<AllMoviesEvent, MoviesState> {
   final GetAllPopularMoviesUseCase _getAllPopularMoviesUseCase;
   final GetAllTopRatedMoviesUseCase _getAllTopRatedMoviesUseCase;
   final GetAllUpcomingMoviesUseCase _getAllUpcomingMoviesUseCase;
+  final GetSearchMoviesUseCase _getSearchMoviesUseCase;
 
   MoviesBloc(
     this._getAllPopularMoviesUseCase,
     this._getAllTopRatedMoviesUseCase,
     this._getAllUpcomingMoviesUseCase,
+    this._getSearchMoviesUseCase,
   ) : super(MoviesLoading()) {
     on<GetPopularMoviesEvent>(_getPopularMoviesEvent);
     on<GetAllMoviesEvent>(_getAllMoviesEvent);
     on<GetTopRatedMoviesEvent>(_getTopRatedMoviesEvent);
     on<GetUpcomingMoviesEvent>(_getUpcomingMoviesEvent);
+    on<SearchMoviesEvent>(_getSearchMoviesEvent);
   }
 
   FutureOr<void> _getPopularMoviesEvent(
@@ -101,5 +105,15 @@ class MoviesBloc extends Bloc<AllMoviesEvent, MoviesState> {
         upcomingMovies: upcomingMovies!,
       ));
     }
+  }
+
+  FutureOr<void> _getSearchMoviesEvent(
+      SearchMoviesEvent event, Emitter<MoviesState> emit) async {
+    emit(MoviesLoading());
+    final failureOrEntitySearch = await _getSearchMoviesUseCase(event.query);
+    failureOrEntitySearch.fold(
+      (failed) => emit(MoviesFailed(failure: failed)),
+      (success) => emit(SearchedMoviesLoaded(searchedMovies: success)),
+    );
   }
 }

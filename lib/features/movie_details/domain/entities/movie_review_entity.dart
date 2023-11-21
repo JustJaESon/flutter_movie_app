@@ -17,6 +17,7 @@ class MovieReviewEntity extends Equatable {
     required this.createdAt,
   });
 
+  @override
   List<Object?> get props => [
         authorName,
         authorUsername,

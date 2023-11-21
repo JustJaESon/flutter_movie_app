@@ -42,7 +42,6 @@ class MovieDetailsEntity extends Equatable {
       required this.movieSimilar});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
         id,
         adult,

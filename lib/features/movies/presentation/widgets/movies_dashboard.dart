@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_movie_app/features/movies/domain/entities/movie_entity.dart';
+import 'package:flutter_movie_app/features/movies/presentation/pages/movies_search_screen.dart';
 import 'package:flutter_movie_app/features/movies/presentation/pages/popular_movies_page.dart';
 import 'package:flutter_movie_app/features/movies/presentation/pages/top_rated_movies_page.dart';
 import 'package:flutter_movie_app/features/movies/presentation/pages/upcoming_movies_page.dart';
@@ -30,12 +31,35 @@ class MoviesDashboard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        MoviesCarouselWidget(
-            allMovies: allMovies(
-          popularMovies,
-          topRatedMovies,
-          upcomingMovies,
-        )),
+        Stack(
+          children: [
+            MoviesCarouselWidget(
+                allMovies: allMovies(
+              popularMovies,
+              topRatedMovies,
+              upcomingMovies,
+            )),
+            Positioned(
+              top: 32,
+              right: 16,
+              child: IconButton(
+                iconSize: 28,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MoviesSearchScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 4,
         ),

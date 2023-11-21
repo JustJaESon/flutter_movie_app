@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_movie_app/core/constants/api_constants.dart';
 import 'package:flutter_movie_app/core/failure/failure.dart';
 import 'package:flutter_movie_app/core/utils/functions.dart';
 import 'package:flutter_movie_app/features/movies/data/models/movie_model.dart';
 
-import '../../../../../core/constants/api_key.dart';
+import '../../../../../core/constant/api_constants.dart';
 
 abstract class MovieRemoteDataSource {
   Future<List<MovieModel>> getMoviesByPopularityFromDataSource(int page);
   Future<List<MovieModel>> getMoviesByTopRatedFromDataSource(int page);
   Future<List<MovieModel>> getMoviesByUpcomingFromDataSource(int page);
+  Future<List<MovieModel>> getSearchMoviesFromDataSource(String query);
 }
 
 class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
@@ -56,6 +56,22 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
               .map((map) => MovieModel.fromJson(map))
               .toList();
       return upcomingMovies;
+    }
+  }
+
+  @override
+  Future<List<MovieModel>> getSearchMoviesFromDataSource(String query) async {
+    print(getMoviesSearchPath(apiKey, query));
+    final response = await dio.get(getMoviesSearchPath(apiKey, query));
+
+    if (response.statusCode != 200) {
+      throw ServerFailure(error: response.statusCode.toString());
+    } else {
+      final List<MovieModel> searchedMovies =
+          List<Map<String, dynamic>>.from(response.data['results'])
+              .map((map) => MovieModel.fromJson(map))
+              .toList();
+      return searchedMovies;
     }
   }
 }

@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_movie_app/core/failure/failure.dart';
 import 'package:flutter_movie_app/features/movies/data/datasources/remote/movie_remote_datasource.dart';
 import 'package:flutter_movie_app/features/movies/data/models/movie_model.dart';
-import 'package:flutter_movie_app/features/movies/domain/entities/movie_entity.dart';
 import 'package:flutter_movie_app/features/movies/domain/repositories/movie_repository.dart';
 
 class MovieRepositoryImpl implements MovieRepository {
@@ -23,7 +22,7 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<Either<Failure, List<MovieEntity>>> getMoviesByTopRatedFromDataSource(
+  Future<Either<Failure, List<MovieModel>>> getMoviesByTopRatedFromDataSource(
       int page) async {
     try {
       final result =
@@ -35,14 +34,26 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<Either<Failure, List<MovieEntity>>> getMoviesByUpcomingFromDataSource(
+  Future<Either<Failure, List<MovieModel>>> getMoviesByUpcomingFromDataSource(
       int page) async {
     try {
       final result =
           await _movieRemoteDataSource.getMoviesByUpcomingFromDataSource(page);
       return right(result);
     } on DioException catch (e) {
-      throw e;
+      return left(ServerFailure(error: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<MovieModel>>> getSearchMoviesFromDataSource(
+      String query) async {
+    try {
+      final result =
+          await _movieRemoteDataSource.getSearchMoviesFromDataSource(query);
+      return right(result);
+    } on DioException catch (e) {
+      return left(ServerFailure(error: e.toString()));
     }
   }
 }
