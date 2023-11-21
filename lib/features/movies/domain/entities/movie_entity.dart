@@ -26,6 +26,7 @@ class MovieEntity extends Equatable {
       required this.releaseDate,
       required this.voteAverage});
 
+  @override
   List<Object?> get props => [
         adult,
         id,

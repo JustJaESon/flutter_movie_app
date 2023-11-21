@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_movie_app/features/movies/domain/entities/movie_entity.dart';
 import 'package:flutter_movie_app/features/movies/presentation/pages/movies_search_screen.dart';
 import 'package:flutter_movie_app/features/movies/presentation/pages/popular_movies_page.dart';

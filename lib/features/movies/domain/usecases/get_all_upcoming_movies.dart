@@ -9,7 +9,7 @@ class GetAllUpcomingMoviesUseCase extends BaseUseCase<List<MovieEntity>, int> {
   GetAllUpcomingMoviesUseCase(this._movieRepository);
 
   @override
-  Future<Either<Failure, List<MovieEntity>>> call(int p) async {
-    return await _movieRepository.getMoviesByUpcomingFromDataSource(p);
+  Future<Either<Failure, List<MovieEntity>>> call(int params) async {
+    return await _movieRepository.getMoviesByUpcomingFromDataSource(params);
   }
 }

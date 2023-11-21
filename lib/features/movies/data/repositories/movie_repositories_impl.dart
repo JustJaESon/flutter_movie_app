@@ -16,8 +16,8 @@ class MovieRepositoryImpl implements MovieRepository {
       final result = await _movieRemoteDataSource
           .getMoviesByPopularityFromDataSource(page);
       return right(result);
-    } on DioException catch (e) {
-      throw e;
+    } on DioException catch (_) {
+      rethrow;
     }
   }
 
@@ -28,8 +28,8 @@ class MovieRepositoryImpl implements MovieRepository {
       final result =
           await _movieRemoteDataSource.getMoviesByTopRatedFromDataSource(page);
       return right(result);
-    } on DioException catch (e) {
-      throw e;
+    } on DioException catch (_) {
+      rethrow;
     }
   }
 

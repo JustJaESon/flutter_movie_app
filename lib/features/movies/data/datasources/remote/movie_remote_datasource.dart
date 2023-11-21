@@ -61,7 +61,6 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
 
   @override
   Future<List<MovieModel>> getSearchMoviesFromDataSource(String query) async {
-    print(getMoviesSearchPath(apiKey, query));
     final response = await dio.get(getMoviesSearchPath(apiKey, query));
 
     if (response.statusCode != 200) {
