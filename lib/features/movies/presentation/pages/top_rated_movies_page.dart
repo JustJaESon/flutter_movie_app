@@ -6,6 +6,8 @@ import 'package:flutter_movie_app/core/components/presentation/widgets/status_no
 import 'package:flutter_movie_app/features/movies/presentation/movies_bloc/get_all_movies_bloc.dart';
 import 'package:flutter_movie_app/features/movies/presentation/movies_bloc/get_all_movies_state.dart';
 import 'package:flutter_movie_app/features/movies/presentation/widgets/more_movies_card_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:number_paginator/number_paginator.dart';
 import '../../../../core/service_locators.dart/injection_container.dart';
 import '../movies_bloc/get_all_movies_event.dart';
 
@@ -18,20 +20,36 @@ class TopRatedMoviesPage extends StatelessWidget {
     return BlocProvider<MoviesBloc>(
       create: (context) => sl()..add(const GetTopRatedMoviesEvent(page: 1)),
       child: Scaffold(
-          appBar: _customAppBar(context),
-          body: BlocBuilder<MoviesBloc, MoviesState>(
-            builder: (_, state) {
-              if (state is MoviesLoading) {
-                return const StatusLoadingWidget();
-              } else if (state is TopRatedMoviesLoaded) {
-                return _topRatedMoviesList(state);
-              } else if (state is MoviesFailed) {
-                return StatusFailedWidget(message: state.failure.toString());
-              } else {
-                return const StatusNothingWidget();
-              }
-            },
-          )),
+        appBar: _customAppBar(context),
+        body: BlocBuilder<MoviesBloc, MoviesState>(
+          builder: (_, state) {
+            if (state is MoviesLoading) {
+              return const StatusLoadingWidget();
+            } else if (state is TopRatedMoviesLoaded) {
+              return _topRatedMoviesList(state);
+            } else if (state is MoviesFailed) {
+              return StatusFailedWidget(message: state.failure.toString());
+            } else {
+              return const StatusNothingWidget();
+            }
+          },
+        ),
+        bottomNavigationBar: BlocBuilder<MoviesBloc, MoviesState>(
+          builder: (context, state) {
+            return NumberPaginator(
+              config: NumberPaginatorUIConfig(
+                  contentPadding: EdgeInsets.symmetric(vertical: 2.h)),
+              numberPages: 99,
+              showNextButton: true,
+              showPrevButton: true,
+              onPageChange: (int index) {
+                BlocProvider.of<MoviesBloc>(context)
+                    .add(GetTopRatedMoviesEvent(page: index + 1));
+              },
+            );
+          },
+        ),
+      ),
     );
   }
 
